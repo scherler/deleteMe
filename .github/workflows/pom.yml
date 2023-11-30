@@ -1,4 +1,4 @@
-name: Add Comment to Dependabot PR
+name: Add comment to pom.xml PR if we changed the jenkins version
 
 on:
   pull_request:
@@ -42,7 +42,7 @@ jobs:
           echo "LAST_JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' main/pom.xml)" >> "$GITHUB_ENV"
 
       - name: Print the versions
-        id: step_three
+        id: print
         run: |
           printf '%s\n' "$JENKINS_VERSION" "$LAST_JENKINS_VERSION"
 
