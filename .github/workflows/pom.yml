@@ -27,11 +27,11 @@ jobs:
       - name: parse jenkins version from pom.xml
         id: jenkins_version
         run: |
-          echo "JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml) >> $GITHUB_ENV"
+          echo "JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml)" >> "$GITHUB_ENV"
       - name: parse jenkins version from .jversion
         id: last_jenkins_version
         run: |
-          echo "LAST_JENKINS_VERSION=$(cat .jversion) >> $GITHUB_ENV"
+          echo "LAST_JENKINS_VERSION=$(cat .jversion)" >> "$GITHUB_ENV"
       - name: Use the value
         id: step_three
         run: |
