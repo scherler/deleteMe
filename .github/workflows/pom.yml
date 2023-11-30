@@ -12,14 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set the value
-        id: step_one
-        run: |
-          echo "action_state=yellow" >> "$GITHUB_ENV"
-      - name: Use the value
-        id: step_two
-        run: |
-          printf '%s\n' "$action_state" # This will output 'yellow'
       - name: install xmllint
         run: |
           sudo apt-get install -y libxml2-utils
@@ -32,10 +24,10 @@ jobs:
         id: last_jenkins_version
         run: |
           echo "LAST_JENKINS_VERSION=$(cat .jversion)" >> "$GITHUB_ENV"
-      - name: Use the value
+      - name: Print the versions
         id: step_three
         run: |
-          printf '%s\n' "env.JENKINS_VERSION" # 
+          printf '%s\n' "$JENKINS_VERSION" "$LAST_JENKINS_VERSION"
       - name: Add Comment to PR
         if: env.JENKINS_VERSION != env.LAST_JENKINS_VERSION
         env:
