@@ -2,8 +2,6 @@ name: Add Comment to Dependabot PR
 
 on:
   pull_request:
-    types:
-      - opened
     paths:
       - 'pom.xml'
 
