@@ -27,7 +27,7 @@ jobs:
       - name: Use the value
         id: step_two
         run: |
-          printf '%s\n' "$JENKINS_VERSION" # 
+          printf '%s\n' "env.JENKINS_VERSION" # 
       - name: Add Comment to PR
         if: env.JENKINS_VERSION != env.LAST_JENKINS_VERSION
         env:
