@@ -1,0 +1,31 @@
+name: Add Comment to Dependabot PR
+
+on:
+  pull_request:
+    types:
+      - opened
+    paths:
+      - 'pom.xml'
+
+jobs:
+  add-comment:
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: parse jenkins version from pom.xml
+        id: jenkins_version
+        run: |
+          echo "JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml) >> $GITHUB_OUTPUT"
+      - name: parse jenkins version from .jversion
+        id: last_jenkins_version
+        run: |
+          echo "LAST_JENKINS_VERSION=$(cat .jversion) >> $GITHUB_OUTPUT"
+      - name: Add Comment to PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMENT: "When updating `jenkins-plugins`, please manually update the dynamic preview environment `cloudbees-core-cm` version in [`preview/Dockerfile`](https://github.com/cloudbees/cloudbees-pipeline-explorer-plugin/blob/main/preview/Dockerfile#L1) to match the upstream version from `jenkins-plugins` before merging the PR."
+        run: |
+          gh issue comment ${{ github.event.pull_request.number }} --repo "$GITHUB_REPOSITORY" --body "$COMMENT"

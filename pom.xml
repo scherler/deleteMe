@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright © 2022 CloudBees, Inc.
+  ~ This is proprietary code. All rights reserved.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.cloudbees.jenkins.plugins</groupId>
+    <artifactId>jenkins-plugins</artifactId>
+    <version>191</version>
+    <relativePath />
+  </parent>
+
+  <artifactId>cloudbees-pipeline-explorer</artifactId>
+  <version>1.9-SNAPSHOT</version>
+  <packaging>hpi</packaging>
+
+  <name>CloudBees Pipeline Explorer</name>
+  <url>https://docs.cloudbees.com/docs/release-notes/latest/plugins/${project.artifactId}-plugin</url>
+
+</project>
