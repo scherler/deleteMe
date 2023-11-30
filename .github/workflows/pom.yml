@@ -31,10 +31,10 @@ jobs:
           echo "JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml)" >> "$GITHUB_ENV"
       - name: parse jenkins version from current branch
         id: last_jenkins_version
-        with:
-          path: main
         run: |
           echo "LAST_JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml)" >> "$GITHUB_ENV"
+        with:
+          path: main
       - name: Print the versions
         id: step_three
         run: |
