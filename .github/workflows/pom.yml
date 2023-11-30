@@ -29,7 +29,7 @@ jobs:
         run: |
           printf '%s\n' "$JENKINS_VERSION" # 
       - name: Add Comment to PR
-        if: JENKINS_VERSION != LAST_JENKINS_VERSION
+        if: env.JENKINS_VERSION != env.LAST_JENKINS_VERSION
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMENT: "When updating `jenkins-plugins`, please manually update the dynamic preview environment `cloudbees-core-cm` version in [`preview/Dockerfile`](https://github.com/cloudbees/cloudbees-pipeline-explorer-plugin/blob/main/preview/Dockerfile#L1) to match the upstream version from `jenkins-plugins` before merging the PR."
