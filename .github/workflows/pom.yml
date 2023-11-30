@@ -15,28 +15,37 @@ jobs:
       - name: install xmllint
         run: |
           sudo apt-get install -y libxml2-utils
+
       - uses: actions/checkout@v4
         with:
           ref: main
           path: main
           sparse-checkout: |
             pom.xml
+          sparse-checkout-cone-mode: false
+
       - uses: actions/checkout@v4
         with:
+          path: pr
           sparse-checkout: |
             pom.xml
-      - name: parse jenkins version from main branch pom.xml
+          sparse-checkout-cone-mode: false
+
+      - name: parse jenkins version from PR pom.xml
         id: jenkins_version
         run: |
-          echo "JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml)" >> "$GITHUB_ENV"
-      - name: parse jenkins version from current branch
+          echo "JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pr/pom.xml)" >> "$GITHUB_ENV"
+
+      - name: parse jenkins version from main branch
         id: last_jenkins_version
         run: |
           echo "LAST_JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' main/pom.xml)" >> "$GITHUB_ENV"
+
       - name: Print the versions
         id: step_three
         run: |
           printf '%s\n' "$JENKINS_VERSION" "$LAST_JENKINS_VERSION"
+
       - name: Add Comment to PR
         if: env.JENKINS_VERSION != env.LAST_JENKINS_VERSION
         env:
