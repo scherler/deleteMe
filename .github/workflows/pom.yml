@@ -25,7 +25,6 @@ jobs:
         run: |
           echo "LAST_JENKINS_VERSION=$(cat .jversion) >> $GITHUB_OUTPUT"
       - name: Add Comment to PR
-        if: ${{ steps.jenkins_version.outputs.JENKINS_VERSION != steps.last_jenkins_version.outputs.LAST_JENKINS_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMENT: "${{ steps.jenkins_version.outputs.JENKINS_VERSION }} xxx ${{ steps.last_jenkins_version.outputs.LAST_JENKINS_VERSION }} When updating `jenkins-plugins`, please manually update the dynamic preview environment `cloudbees-core-cm` version in [`preview/Dockerfile`](https://github.com/cloudbees/cloudbees-pipeline-explorer-plugin/blob/main/preview/Dockerfile#L1) to match the upstream version from `jenkins-plugins` before merging the PR."
