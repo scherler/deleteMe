@@ -15,15 +15,26 @@ jobs:
       - name: install xmllint
         run: |
           sudo apt-get install -y libxml2-utils
-      - uses: actions/checkout@v3
-      - name: parse jenkins version from pom.xml
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+          sparse-checkout: |
+            pom.xml
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            pom.xml
+      - name: parse jenkins version from main branch pom.xml
         id: jenkins_version
         run: |
           echo "JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml)" >> "$GITHUB_ENV"
-      - name: parse jenkins version from .jversion
+      - name: parse jenkins version from current branch
         id: last_jenkins_version
+        with:
+          path: main
         run: |
-          echo "LAST_JENKINS_VERSION=$(cat .jversion)" >> "$GITHUB_ENV"
+          echo "LAST_JENKINS_VERSION=$(xmllint --xpath '//*[name() = "parent"]/*[name() = "version"]/text()' pom.xml)" >> "$GITHUB_ENV"
       - name: Print the versions
         id: step_three
         run: |
