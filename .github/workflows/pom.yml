@@ -24,10 +24,14 @@ jobs:
         id: last_jenkins_version
         run: |
           echo "LAST_JENKINS_VERSION=$(cat .jversion) >> $GITHUB_ENV"
+      - name: Use the value
+        id: step_two
+        run: |
+          printf '%s\n' "$JENKINS_VERSION" # 
       - name: Add Comment to PR
         if: $JENKINS_VERSION != $LAST_JENKINS_VERSION
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMENT: "${{$JENKINS_VERSION}} xxx ${{$LAST_JENKINS_VERSION}} When updating `jenkins-plugins`, please manually update the dynamic preview environment `cloudbees-core-cm` version in [`preview/Dockerfile`](https://github.com/cloudbees/cloudbees-pipeline-explorer-plugin/blob/main/preview/Dockerfile#L1) to match the upstream version from `jenkins-plugins` before merging the PR."
+          COMMENT: "When updating `jenkins-plugins`, please manually update the dynamic preview environment `cloudbees-core-cm` version in [`preview/Dockerfile`](https://github.com/cloudbees/cloudbees-pipeline-explorer-plugin/blob/main/preview/Dockerfile#L1) to match the upstream version from `jenkins-plugins` before merging the PR."
         run: |
           gh issue comment ${{ github.event.pull_request.number }} --repo "$GITHUB_REPOSITORY" --body "$COMMENT"
