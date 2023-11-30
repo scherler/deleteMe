@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: install xmllint
+        run: |
+          sudo apt-get install -y libxml2-utils
       - uses: actions/checkout@v3
       - name: parse jenkins version from pom.xml
         id: jenkins_version
